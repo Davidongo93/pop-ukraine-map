@@ -35,7 +35,8 @@
     "pages/**/*.tsx",
     "pages/**/*.js",
     "pages/**/*.jsx",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "public/geo/**/*" 
   ],
   "exclude": [
     "node_modules",

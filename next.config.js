@@ -12,6 +12,19 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  webpack: (config) => {
+    // Añade una regla para procesar archivos .geojson
+    config.module.rules.push({
+      test: /\.geojson$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[hash].[ext]', // Cambia el nombre del archivo con hash
+        outputPath: 'static/geojson/', // Define dónde se guardarán los archivos
+      },
+    });
+
+    return config;
+  },
 };
 
 const plugins = [
