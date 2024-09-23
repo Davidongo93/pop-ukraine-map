@@ -1,10 +1,13 @@
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
-import L from 'leaflet';
-import { oblastsPopulation } from '../UkraineMap/oblastPopulation';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { RootState } from '../../../redux/store';
+import { oblastsPopulation } from '../../../public/oblastPopulation';
 
+// Cargar componentes de Leaflet de forma dinámica
+const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLayer), { ssr: false });
+const GeoJSON = dynamic(() => import('react-leaflet').then((mod) => mod.GeoJSON), { ssr: false });
 
 type OblastKey = keyof typeof oblastsPopulation;
 
@@ -23,13 +26,19 @@ const MapComponent: React.FC<MapComponentProps> = ({ setHoveredOblast, hoveredOb
 
   useEffect(() => {
     const fetchGeoJSON = async () => {
-      const responseOblasts = await fetch('/geo/map.geojson');
-      const dataOblasts = await responseOblasts.json();
-      setGeojsonDataOblast(dataOblasts);
+      try {
+        const [responseOblasts, responseRoads] = await Promise.all([
+          fetch('/geo/map.geojson'),
+          fetch('/geo/roads.geojson')
+        ]);
+        const dataOblasts = await responseOblasts.json();
+        const dataRoads = await responseRoads.json();
 
-      const responseRoads = await fetch('/geo/roads.geojson');
-      const dataRoads = await responseRoads.json();
-      setGeojsonDataRoads(dataRoads);
+        setGeojsonDataOblast(dataOblasts);
+        setGeojsonDataRoads(dataRoads);
+      } catch (error) {
+        console.error("Error fetching GeoJSON data:", error);
+      }
     };
     fetchGeoJSON();
   }, []);
@@ -67,7 +76,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ setHoveredOblast, hoveredOb
 
   return (
     <>
-      <MapContainer center={[48.3794, 31.1656]} zoom={6} style={{ height: '100vh', width: '90%' }}>
+      <MapContainer center={[48.3794, 31.1656]} zoom={6} style={{ height: '100vh', width: 'auto', zIndex: 0 }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -102,4 +111,4 @@ const MapComponent: React.FC<MapComponentProps> = ({ setHoveredOblast, hoveredOb
   );
 };
 
-export default MapComponent;
+export default dynamic(() => Promise.resolve(MapComponent), { ssr: false });

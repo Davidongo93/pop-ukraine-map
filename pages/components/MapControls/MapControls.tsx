@@ -1,34 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleOblasts, toggleRoads } from '../../redux/reducers/mapReducer';
-import { RootState } from '../../redux/store';
+import { toggleOblasts, toggleRoads } from '../../../redux/reducers/mapReducer';
+import { RootState } from '../../../redux/store';
+import { FaMapSigns, FaRoad, FaInfoCircle } from 'react-icons/fa';
+import HelpDialog from '../HelpDialog/HelpDialog';
 
 const MapControls: React.FC = () => {
   const dispatch = useDispatch();
   const showOblasts = useSelector((state: RootState) => state.map.showOblasts);
   const showRoads = useSelector((state: RootState) => state.map.showRoads);
+  const [isDialogOpen, setDialogOpen] = useState(false); // Estado para manejar el diálogo
+
+  const toggleDialog = () => {
+    setDialogOpen(!isDialogOpen);
+  };
 
   return (
     <div className="fixed top-4 right-4 flex flex-col space-y-4 z-50">
-      {/* Botón para mostrar u ocultar Oblasts */}
       <button
-        className={`w-14 h-14 flex justify-center items-center rounded-full shadow-lg transition-transform transform hover:scale-110 focus:outline-none
-          ${showOblasts ? 'bg-blue-500' : 'bg-blue-400'} bg-opacity-60 border border-blue-400 text-white`}
+        className={`map-button oblast ${showOblasts ? 'bg-blue-500' : 'bg-blue-400'}`}
         onClick={() => dispatch(toggleOblasts())}
         title={showOblasts ? 'Ocultar Oblasts' : 'Mostrar Oblasts'}
       >
-        O
+        <FaMapSigns className="text-xl" />
       </button>
 
-      {/* Botón para mostrar u ocultar Carreteras */}
       <button
-        className={`w-14 h-14 flex justify-center items-center rounded-full shadow-lg transition-transform transform hover:scale-110 focus:outline-none
-          ${showRoads ? 'bg-red-500' : 'bg-red-400'} bg-opacity-60 border border-red-400 text-white`}
+        className={`map-button roads ${showRoads ? 'bg-red-500' : 'bg-red-400'}`}
         onClick={() => dispatch(toggleRoads())}
         title={showRoads ? 'Ocultar Carreteras' : 'Mostrar Carreteras'}
       >
-        R
+        <FaRoad className="text-xl" />
       </button>
+
+      <button
+        className="map-button bg-gray-500"
+        onClick={toggleDialog}
+        title="Mostrar Ayuda"
+      >
+        <FaInfoCircle className="text-xl" />
+      </button>
+
+      <HelpDialog isOpen={isDialogOpen} onClose={toggleDialog} />
     </div>
   );
 };
