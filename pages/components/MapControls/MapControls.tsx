@@ -9,7 +9,7 @@ const MapControls: React.FC = () => {
   const dispatch = useDispatch();
   const showOblasts = useSelector((state: RootState) => state.map.showOblasts);
   const showRoads = useSelector((state: RootState) => state.map.showRoads);
-  const [isDialogOpen, setDialogOpen] = useState(false); // Estado para manejar el diálogo
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   const toggleDialog = () => {
     setDialogOpen(!isDialogOpen);
@@ -19,7 +19,7 @@ const MapControls: React.FC = () => {
     <>
     <div className="fixed top-4 right-4 flex flex-col space-y-4 z-50">
       <button
-        className={`map-button oblast ${showOblasts ? 'oblast' : ''}`}
+        className={`map-button ${showOblasts ? 'oblast' : ''}`}
         onClick={() => dispatch(toggleOblasts())}
         title={showOblasts ? 'Ocultar Oblasts' : 'Mostrar Oblasts'}
       >

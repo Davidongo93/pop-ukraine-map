@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { oblastsPopulation } from '../../../public/data/oblastPopulation';
 
-// Cargar componentes de Leaflet de forma dinámica
 const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLayer), { ssr: false });
 const GeoJSON = dynamic(() => import('react-leaflet').then((mod) => mod.GeoJSON), { ssr: false });
@@ -50,7 +49,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ setHoveredOblast, hoveredOb
       color: '#3388ff',
       weight: 2,
       fillColor: oblastName === hoveredOblast ? '#00f' : '#ccc',
-      fillOpacity: 0.5,
+      fillOpacity: 0.1,
     };
   };
 
@@ -86,7 +85,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ setHoveredOblast, hoveredOb
         {showRoads && geojsonDataRoads && (
           <GeoJSON
             data={geojsonDataRoads}
-            style={{ color: '#FF0000', weight: 1 }}
+            style={{ color: '#FF0000', weight: 1, }}
           />
         )}
 
@@ -101,8 +100,8 @@ const MapComponent: React.FC<MapComponentProps> = ({ setHoveredOblast, hoveredOb
 
       {hoveredOblast && tooltipPosition && (
         <div
-          className="absolute p-4 bg-white border rounded shadow-lg"
-          style={{ top: tooltipPosition.y + 10, left: tooltipPosition.x + 10, zIndex: 1000 }}
+          className="absolute p-4 bg-white  border rounded shadow-lg"
+          style={{ top: tooltipPosition.y + 10, left: tooltipPosition.x + 10, zIndex: 4 }}
         >
           <p className="font-bold">{hoveredOblast}</p>
           <p>Population: {oblastsPopulation[hoveredOblast]?.toLocaleString()} habitants</p>

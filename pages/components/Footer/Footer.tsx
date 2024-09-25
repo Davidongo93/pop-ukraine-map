@@ -1,34 +1,14 @@
-
-import { useState, useEffect } from 'react';
-import styles from './Footer.module.css';
-
 export default function Footer() {
-  const [showFooter, setShowFooter] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
-      setShowFooter(isAtBottom);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const getCurrentYear = () => {
+    const getCurrentYear = () => {
     return new Date().getFullYear();
   };
 
   return (
     <nav
-      className={`${styles.footer} ${showFooter ? styles['opacity-1'] : styles['opacity-0']} ${
-        showFooter ? styles['blur-10px'] : ''
-      } ${showFooter ? styles['pointer-events-auto'] : ''}`}
+      className={`footer blur-10px`}
     >
-      <footer className="text-center">
+      <footer className="text-center py-2">
         <p>
           &copy; {getCurrentYear()} By{' '}
           <a
