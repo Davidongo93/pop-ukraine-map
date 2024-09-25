@@ -1,7 +1,8 @@
+'use client'
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
-import { oblastsPopulation } from '../../../public/oblastPopulation'; // Ajusta la ruta según tu estructura de carpetas
+import { oblastsPopulation } from '../../../public/data/oblastPopulation'; // Ajusta la ruta según tu estructura de carpetas
 
 // Definir un tipo que represente las claves de los oblasts
 type OblastKey = keyof typeof oblastsPopulation;

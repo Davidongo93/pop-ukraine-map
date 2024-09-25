@@ -16,9 +16,10 @@ const MapControls: React.FC = () => {
   };
 
   return (
+    <>
     <div className="fixed top-4 right-4 flex flex-col space-y-4 z-50">
       <button
-        className={`map-button oblast ${showOblasts ? 'bg-blue-500' : 'bg-blue-400'}`}
+        className={`map-button oblast ${showOblasts ? 'oblast' : ''}`}
         onClick={() => dispatch(toggleOblasts())}
         title={showOblasts ? 'Ocultar Oblasts' : 'Mostrar Oblasts'}
       >
@@ -26,7 +27,7 @@ const MapControls: React.FC = () => {
       </button>
 
       <button
-        className={`map-button roads ${showRoads ? 'bg-red-500' : 'bg-red-400'}`}
+        className={`map-button  ${showRoads ? 'roads' : ''}`}
         onClick={() => dispatch(toggleRoads())}
         title={showRoads ? 'Ocultar Carreteras' : 'Mostrar Carreteras'}
       >
@@ -34,15 +35,16 @@ const MapControls: React.FC = () => {
       </button>
 
       <button
-        className="map-button bg-gray-500"
+        className="map-button about"
         onClick={toggleDialog}
         title="Mostrar Ayuda"
       >
         <FaInfoCircle className="text-xl" />
       </button>
 
-      <HelpDialog isOpen={isDialogOpen} onClose={toggleDialog} />
     </div>
+      <HelpDialog isOpen={isDialogOpen} onClose={toggleDialog} />
+      </>
   );
 };
 

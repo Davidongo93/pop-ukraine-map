@@ -1,8 +1,9 @@
+'use client'
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { oblastsPopulation } from '../../../public/oblastPopulation';
+import { oblastsPopulation } from '../../../public/data/oblastPopulation';
 
 // Cargar componentes de Leaflet de forma dinámica
 const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false });
@@ -104,7 +105,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ setHoveredOblast, hoveredOb
           style={{ top: tooltipPosition.y + 10, left: tooltipPosition.x + 10, zIndex: 1000 }}
         >
           <p className="font-bold">{hoveredOblast}</p>
-          <p>Población: {oblastsPopulation[hoveredOblast]?.toLocaleString()} habitantes</p>
+          <p>Population: {oblastsPopulation[hoveredOblast]?.toLocaleString()} habitants</p>
         </div>
       )}
     </>
